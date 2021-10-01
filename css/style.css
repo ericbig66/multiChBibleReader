@@ -1,0 +1,21 @@
+.scaling:hover{
+    transform: scale(1.25,1.25);
+    transition: transform 0.25s ease;
+}
+
+.glyphicon-move {
+    cursor: move;
+    cursor: -webkit-grabbing;
+  }
+
+.del{
+    cursor: pointer;
+}
+
+.toBlue:hover{
+    color:deepskyblue;
+}
+
+.toPink:hover{
+    color:crimson;
+}

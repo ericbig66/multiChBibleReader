@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
+    <title>Document</title>
+</head>
+<body class="px-2">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="query-tab" data-bs-toggle="tab" data-bs-target="#query" type="button" role="tab" aria-controls="query" aria-selected="true">查詢</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="result-tab" data-bs-toggle="tab" data-bs-target="#result" type="button" role="tab" aria-controls="result" aria-selected="false">結果</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="query" role="tabpanel" aria-labelledby="query-tab">
+            <div class="col-10 d-flex pt-3">
+                <div class="d-flex px-2">
+                    <select class="form-select col-4" id="Covenant" aria-label="Default select example">
+                        <option selected value="1">新約</option>
+                        <option value="2">舊約</option>
+                    </select>
+                </div>
+                <div class="d-flex px-2">
+                    <select class="form-select" id="chapter" aria-label="Default select example">
+                        <option selected value ="太">馬太福音</option>
+                        <option value ="可">馬可福音</option>
+                        <option value ="路">路加福音</option>
+                        <option value ="約">約翰福音</option>
+                        <option value ="徒">使徒行傳</option>
+                        <option value ="羅">羅馬書</option>
+                        <option value ="林前">歌林多前書</option>
+                        <option value ="林後">歌林多後書</option>
+                        <option value ="加">加拉太書</option>
+                        <option value ="弗">以弗所書</option>
+                        <option value ="腓">腓立比書</option>
+                        <option value ="西">歌羅西書</option>
+                        <option value ="帖前">帖撒羅尼迦前書</option>
+                        <option value ="帖後">帖撒羅尼迦後書</option>
+                        <option value ="提前">提摩太前書</option>
+                        <option value ="提後">提摩太後書</option>
+                        <option value ="多">提多書</option>
+                        <option value ="門">腓利門書</option>
+                        <option value ="來">希伯來書</option>
+                        <option value ="雅">雅各書</option>
+                        <option value ="彼前">彼得前書</option>
+                        <option value ="彼後">彼得後書</option>
+                        <option value ="約一">約翰一書</option>
+                        <option value ="約二">約翰二書</option>
+                        <option value ="約三">約翰三書</option>
+                        <option value ="猶">猶大書</option>
+                        <option value ="啟">啟示錄</option>
+                    </select>
+                </div>
+                <div class="col-3">
+                    <div class="px-2 input-group">
+                        <input type="number" value="1" min=1 max=20 class="form-control" id ="ch_limit">
+                        <span class="input-group-text">章</span>
+                        <input type="number" value="1" min=1 class="form-control" id ="sec_s">
+                        <span class="input-group-text">~</span>
+                        <input type="number" value="50" min=1 class="form-control" id ="sec_e">
+                        <span class="input-group-text">節</span>
+                    </div>
+                </div>
+                
+                <div class="d-flex">
+                    <button type="button" class="btn btn-primary mx-2" id="AddItem">加入列表</button>
+                    <button type="button" class="btn btn-primary mx-2" id="ClearItem">清空列表</button>
+                </div>
+            </div>
+
+            <div class="ms-2 mt-3 col-5 list-group">
+                <div id="listWithHandle" class="list-group">
+                <!-- place holder
+                    <div class="list-group-item d-flex">    
+                        <div class="glyphicon-move" aria-hidden="true"><i class="fas fa-arrows-alt-v me-2 scaling toBlue"></i></div>
+                        <div>馬太福音 3:11~15</div>
+                        <div class="ms-auto"><i class="fas fa-trash-alt scaling del toPink"></i></div>
+                        <div class="BibleContent d-none">太,3,11,15</div>
+                    </div>
+                
+                    <div class="list-group-item d-flex">    
+                        <div class="glyphicon-move" aria-hidden="true"><i class="fas fa-arrows-alt-v me-2 scaling toBlue"></i></div>
+                        <div>約翰福音 2:2~10</div>
+                        <div class="ms-auto"><i class="fas fa-trash-alt scaling del toPink"></i></div>
+                        <div class="BibleContent d-none">約,2,2,10</div>
+                    </div>
+                
+                    <div class="list-group-item d-flex">    
+                        <div class="glyphicon-move" aria-hidden="true"><i class="fas fa-arrows-alt-v me-2 scaling toBlue"></i></div>
+                        <div>以弗所書 1:5~7</div>
+                        <div class="ms-auto"><i class="fas fa-trash-alt scaling del toPink"></i></div>
+                        <div class="BibleContent d-none">弗,1,5,7</div>
+                    </div>
+                -->
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="result" role="tabpanel" aria-labelledby="result-tab">
+            
+            <div class="col-7 ms-2 mt-3" id="render-area">
+            <!--placeholder item
+                <ul class="list-group mb-5">
+                    <li class="list-group-item text-center fw-bolder">An item</li>
+                    <li class="list-group-item">A second item</li>
+                    <li class="list-group-item">A third item</li>
+                    <li class="list-group-item">A fourth item</li>
+                    <li class="list-group-item">And a fifth one</li>
+                </ul>
+
+                <ul class="list-group">
+                    <li class="list-group-item text-center fw-bolder">An item</li>
+                    <li class="list-group-item">A second item</li>
+                    <li class="list-group-item">A third item</li>
+                    <li class="list-group-item">A fourth item</li>
+                    <li class="list-group-item">And a fifth one</li>
+                </ul>
+            -->
+            </div>
+        </div>
+    </div>
+    <script src="./js/GetContext.js"></script>
+</body>
+</html>
