@@ -84,26 +84,17 @@ $('#result-tab').click(async function(){
         var ch_title = $('.ChTitle:nth('+index+')').text();
         var content = "";
         
-        //console.log('BibleContent Index = '+index);
         console.log($('.BibleContent:nth('+index+')').text())
-        //setTimeout(()=>{
         var content_list = await gd($('.BibleContent:nth('+index+')').text());
-        //},0);
+
         
         await console.log("content_list length = "+content_list.length);
         //console.log(content_list);
         for(var i = 0; i<content_list.length; i++){
             console.log("content_list index= "+content_list[i]);
-            content += '<li class="list-group-item">'+content_list[i]+'</li>';
+            content += '<li class="list-group-item d-flex">'+content_list[i]+'</li>';
         }
-        /*
-        await content_list.forEach(async function(index,value){
-            await console.log("content_list index= " + index);
-            await console.log("content_list value= " + value);
-             content += '<li class="list-group-item">'+value+'</li>'
-        });
-        */
-            //console.log(content);
+
         await $('#render-area').append(`
         <ul class='list-group mb-5'>
              <li class='list-group-item text-center fw-bolder'>`+ ch_title +`</li>`+
@@ -119,17 +110,11 @@ var gd = async function GD(parms){
     var j='';
     var fd = $.get('https://bible.fhl.net/json/qb.php?'+parms, //取得資料API
     function(data){       
-        //console.log(data);
         j = jQuery.parseJSON(data).record;//處理json，並分出record資料
-        //console.log("2: "+j.length);
-        //console.log(j);
-        //console.log(j[0].sec +" "+j[0].bible_text); 
-        //return jp(j);      
     });
     await $.when(fd).done(function(){
         for(var i=0;i<j.length;i++){
-            //console.log("3: "+i);
-            BibleSecs.push(j[i].sec +". "+j[i].bible_text);
+            BibleSecs.push("<div class='me-2'>"+j[i].sec +". </div><div>"+j[i].bible_text+"</div>");
         }
         console.log(BibleSecs.length);
         
@@ -140,14 +125,8 @@ var gd = async function GD(parms){
 
 var jp = function jp(j){
     for(var i=0;i<j.length;i++){
-        //console.log("3: "+i);
-        BibleSecs.push(j[i].sec +". "+j[i].bible_text);
+        BibleSecs.push("<div class='me-2'>"+j[i].sec +". </div><div>"+j[i].bible_text+"</div>");
     }
-   // console.log(BibleSecs);
-    //console.log("5: "+BibleSecs);
-    //alert(BibleSecs);
-    //console.log("6: "+BibleSecs.length);
-    //console.log(typeof BibleSecs);
     return BibleSecs;
 }
 
@@ -155,8 +134,6 @@ var test = function test(){
     var t1 = ["a","b","c"];
     var t2 = ["d","e","f"];
     t2.forEach(function(item,index){
-        //var content_list = []; 
-        //content_list = gd($('.BibleContent:nth('+index+')').text());
         var xx ='';
         xx = test2("QQ");
         console.log(xx);
