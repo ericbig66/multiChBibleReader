@@ -146,6 +146,7 @@ Sortable.create(listWithHandle, {
 //清空列表
 var clear_item = function clearitem(){
     $('#listWithHandle').html('');
+    RebuildQueryString();
 }
 
 $('#ClearItem').click(clear_item);
@@ -154,6 +155,7 @@ $('#ClearItem').click(clear_item);
 $('#listWithHandle').on("click",".del",function(){
     $(this).parent().parent().remove();
     console.log($(this).parent().parent().html());
+    RebuildQueryString();
     //alert('??');
 });
 
@@ -164,16 +166,66 @@ $('#AddItem').click(function(){
     var c = $('#ch_limit').val();
     var ss = $('#sec_s').val();
     var se = $('#sec_e').val();
+    var SE ="";
+    if(ss != se) SE = "~" + se;
     if(parseInt(ss)>parseInt(se)){se = [ss, ss = se][0]}
     $('#listWithHandle').append(`
     <div class="list-group-item d-flex">    
         <div class="glyphicon-move" aria-hidden="true"><i class="fas fa-arrows-alt-v me-2 scaling toBlue"></i></div>
-        <div class="ChTitle">`+f+` `+c+`:`+ss+`~`+se+`</div>
+        <div class="ChTitle">`+f+` `+c+`:`+ss+ SE+`</div>
         <div class="ms-auto"><i class="fas fa-trash-alt scaling del toPink"></i></div>
         <div class="BibleContent d-none">chineses=`+s+`&chap=`+c+`&sec=`+ss+`-`+se+`</div>
     </div>
     `);
+    RebuildQueryString();
 });
+
+var RebuildQueryString = function(){
+    var queryString = "?";
+    for(var i = 0; i<$(".BibleContent").length; i++){
+        const ListItemText = new URLSearchParams($(".BibleContent:eq("+i+")").text());
+        const sec = ListItemText.get('sec').split('-');
+        console.log(sec);
+        queryString += 'chs'+i+'='+ListItemText.get('chineses') 
+                      +'&chn'+i+'='+ListItemText.get('chap') 
+                      +'&ss'+i+'='+sec[0]
+                      +'&se'+i+'='+sec[1]
+                      +'&';
+    }
+    window.history.replaceState("","",queryString);
+}
+
+//更新查詢字串
+$(document).ready(function(){
+    var i = 0;
+    const queryString = new URLSearchParams(window.location.search);
+    console.log("autoAddItem");
+    while(queryString.get('chs'+i)!=null){
+        try{
+            var s = queryString.get('chs'+i);
+            var f = ch_s_n.indexOf(s)>-1?ch_f_n[ch_s_n.indexOf(s)]:ch_f_o[ch_s_o.indexOf(s)];
+            var c = queryString.get('chn'+i);
+            var ss = queryString.get('ss'+i);
+            var se = queryString.get('se'+i);
+            var SE ="";
+            if(ss != se) SE = "~" + se;
+            if(parseInt(ss)>parseInt(se)){se = [ss, ss = se][0]}
+            $('#listWithHandle').append(`
+            <div class="list-group-item d-flex">    
+                <div class="glyphicon-move" aria-hidden="true"><i class="fas fa-arrows-alt-v me-2 scaling toBlue"></i></div>
+                <div class="ChTitle">`+f+` `+c+`:`+ss+ SE+`</div>
+                <div class="ms-auto"><i class="fas fa-trash-alt scaling del toPink"></i></div>
+                <div class="BibleContent d-none">chineses=`+s+`&chap=`+c+`&sec=`+ss+`-`+se+`</div>
+            </div>
+            `);
+            i++;
+        }catch{
+            console.log('i = '+i);
+            break;
+        }
+    }
+});
+
 
 //取得輸入的資料並繪製於頁面上
 $('#result-tab').click(async function(){
@@ -250,3 +302,7 @@ var test2 = async function test2(x){
     },1000);
 }
 
+$('#ShareURL').click(function(){
+    navigator.clipboard.writeText(window.location.href);
+    toastr.success('複製成功！','',{progressBar: true})
+});
