@@ -19,3 +19,7 @@
 .toPink:hover{
     color:crimson;
 }
+
+#render-area li{
+    font-size: x-large;
+}
