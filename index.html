@@ -27,7 +27,9 @@
           <button class="nav-link disabled" id="help-tab" data-bs-toggle="tab" data-bs-target="#help" type="button" role="tab" aria-controls="help" aria-selected="false">使用說明</button>
         </li>
     </ul>
+    <!--各分頁-->
     <div class="tab-content" id="myTabContent">
+        <!--查詢-->
         <div class="tab-pane fade show active" id="query" role="tabpanel" aria-labelledby="query-tab">
             <div class="col-10 d-flex pt-3">
                 <div class="d-flex px-2">
@@ -87,94 +89,66 @@
 
             <div class="ms-2 mt-3 col-5 list-group">
                 <div id="listWithHandle" class="list-group">
-                <!-- place holder
-                    <div class="list-group-item d-flex">    
-                        <div class="glyphicon-move" aria-hidden="true"><i class="fas fa-arrows-alt-v me-2 scaling toBlue"></i></div>
-                        <div>馬太福音 3:11~15</div>
-                        <div class="ms-auto"><i class="fas fa-trash-alt scaling del toPink"></i></div>
-                        <div class="BibleContent d-none">太,3,11,15</div>
-                    </div>
-                
-                    <div class="list-group-item d-flex">    
-                        <div class="glyphicon-move" aria-hidden="true"><i class="fas fa-arrows-alt-v me-2 scaling toBlue"></i></div>
-                        <div>約翰福音 2:2~10</div>
-                        <div class="ms-auto"><i class="fas fa-trash-alt scaling del toPink"></i></div>
-                        <div class="BibleContent d-none">約,2,2,10</div>
-                    </div>
-                
-                    <div class="list-group-item d-flex">    
-                        <div class="glyphicon-move" aria-hidden="true"><i class="fas fa-arrows-alt-v me-2 scaling toBlue"></i></div>
-                        <div>以弗所書 1:5~7</div>
-                        <div class="ms-auto"><i class="fas fa-trash-alt scaling del toPink"></i></div>
-                        <div class="BibleContent d-none">弗,1,5,7</div>
-                    </div>
-                -->
+
                 </div>
             </div>
         </div>
-
+        <!--結果-->
         <div class="tab-pane fade" id="result" role="tabpanel" aria-labelledby="result-tab">
-            
+            <div class="d-flex col-10 mx-auto mt-3" id="FontSizeContainer">
+              <div class="d-flex col-8 mx-auto">
+                <div class="ms-auto me-1">
+                  <label for="customRange1" class="form-label">字體大小</label>
+                </div>
+                <div class="col-8 me-auto">
+                  <input type="range" class="form-range" min="9" max="60" step="0.5" id="FontSize" value = "18">
+                </div>
+              </div>
+            </div>
             <div class="col-10 mx-auto mt-3" id="render-area">
-            <!--placeholder item
-                <ul class="list-group mb-5">
-                    <li class="list-group-item text-center fw-bolder">An item</li>
-                    <li class="list-group-item">A second item</li>
-                    <li class="list-group-item">A third item</li>
-                    <li class="list-group-item">A fourth item</li>
-                    <li class="list-group-item">And a fifth one</li>
-                </ul>
-
-                <ul class="list-group">
-                    <li class="list-group-item text-center fw-bolder">An item</li>
-                    <li class="list-group-item">A second item</li>
-                    <li class="list-group-item">A third item</li>
-                    <li class="list-group-item">A fourth item</li>
-                    <li class="list-group-item">And a fifth one</li>
-                </ul>
-            -->
+              <!--js寫入結果至此-->
             </div>
         </div>
-
+        <!--使用說明-->
         <div class="tab-pane fade" id="help" role="tabpanel" aria-labelledby="help-tab">
-            <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
-                <div class="carousel-indicators">
-                  <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                  <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                  <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                  <h5>First slide label</h5>
+                  <p>Some representative placeholder content for the first slide.</p>
                 </div>
-                <div class="carousel-inner">
-                  <div class="carousel-item active" data-bs-interval="10000">
-                    <img src="" class="d-block w-100" alt="製作中...">
-                    <div class="carousel-caption d-none d-md-block">
-                      <h5>First slide label</h5>
-                      <p>Some representative placeholder content for the first slide.</p>
-                    </div>
-                  </div>
-                  <div class="carousel-item" data-bs-interval="2000">
-                    <img src="" class="d-block w-100" alt="製作中...">
-                    <div class="carousel-caption d-none d-md-block">
-                      <h5>Second slide label</h5>
-                      <p>Some representative placeholder content for the second slide.</p>
-                    </div>
-                  </div>
-                  <div class="carousel-item">
-                    <img src="" class="d-block w-100" alt="製作中...">
-                    <div class="carousel-caption d-none d-md-block">
-                      <h5>Third slide label</h5>
-                      <p>Some representative placeholder content for the third slide.</p>
-                    </div>
-                  </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
               </div>
+              <div class="carousel-item">
+                <img src="" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                  <h5>Second slide label</h5>
+                  <p>Some representative placeholder content for the second slide.</p>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <img src="" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                  <h5>Third slide label</h5>
+                  <p>Some representative placeholder content for the third slide.</p>
+                </div>
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
         </div>
     </div>
     <script src="./js/GetContext.js"></script>

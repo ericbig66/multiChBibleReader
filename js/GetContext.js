@@ -251,6 +251,8 @@ $('#result-tab').click(async function(){
              <li class='list-group-item text-center fw-bolder'>`+ ch_title +`</li>`+
              content+
          `<ul>`); 
+
+        await $('#render-area li').css({'font-size':$('#FontSize').val() + 'pt'});
     };    
 });
  
@@ -306,3 +308,9 @@ $('#ShareURL').click(function(){
     navigator.clipboard.writeText(window.location.href);
     toastr.success('複製成功！','',{progressBar: true})
 });
+
+//字型大小調整
+$('#FontSize').on("input",function(){
+    $('#render-area li').css({'font-size':$('#FontSize').val() + 'pt'});
+});
+
