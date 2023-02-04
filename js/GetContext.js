@@ -115,7 +115,7 @@ $('#chapter').on("change",function(){
 });
 
 var ch_lim_change = function(){
-    console.log("ch_lim changed");
+    //console.log("ch_lim changed");
 
     var lim = ch_count[ch_s.indexOf($('#chapter').val())];
    $('#ch_limit').prop('max',lim);
@@ -129,7 +129,7 @@ $('#ch_limit').on("change",function(){
 
 var sec_lim_change = function(){
     var lim = sec_count[ch_s.indexOf($('#chapter').val())][parseInt($('#ch_limit').val())-1];
-    console.log($('#chapter').val()+$('#ch_limit').val()+":"+lim);
+    //console.log($('#chapter').val()+$('#ch_limit').val()+":"+lim);
     $('#sec_e').prop('max',lim);
     $('#sec_s').prop('max',lim);
     $('#sec_s').prop('value',1);
@@ -154,7 +154,7 @@ $('#ClearItem').click(clear_item);
 //刪除列表項目
 $('#listWithHandle').on("click",".del",function(){
     $(this).parent().parent().remove();
-    console.log($(this).parent().parent().html());
+    //console.log($(this).parent().parent().html());
     RebuildQueryString();
     //alert('??');
 });
@@ -185,7 +185,7 @@ var RebuildQueryString = function(){
     for(var i = 0; i<$(".BibleContent").length; i++){
         const ListItemText = new URLSearchParams($(".BibleContent:eq("+i+")").text());
         const sec = ListItemText.get('sec').split('-');
-        console.log(sec);
+        //console.log(sec);
         queryString += 'chs'+i+'='+ListItemText.get('chineses') 
                       +'&chn'+i+'='+ListItemText.get('chap') 
                       +'&ss'+i+'='+sec[0]
@@ -199,7 +199,7 @@ var RebuildQueryString = function(){
 $(document).ready(function(){
     var i = 0;
     const queryString = new URLSearchParams(window.location.search);
-    console.log("autoAddItem");
+    //console.log("autoAddItem");
     while(queryString.get('chs'+i)!=null){
         try{
             var s = queryString.get('chs'+i);
@@ -220,7 +220,7 @@ $(document).ready(function(){
             `);
             i++;
         }catch{
-            console.log('i = '+i);
+            //console.log('i = '+i);
             break;
         }
     }
@@ -235,14 +235,14 @@ $('#result-tab').click(async function(){
         var ch_title = $('.ChTitle:nth('+index+')').text();
         var content = "";
         
-        console.log($('.BibleContent:nth('+index+')').text())
+        //console.log($('.BibleContent:nth('+index+')').text())
         var content_list = await gd($('.BibleContent:nth('+index+')').text());
 
         
         //await console.log("content_list length = "+content_list.length);
         //console.log(content_list);
         for(var i = 0; i<content_list.length; i++){
-            console.log("content_list index= "+content_list[i]);
+            //console.log("content_list index= "+content_list[i]);
             content += '<li class="list-group-item d-flex">'+content_list[i]+'</li>';
         }
 
@@ -253,13 +253,14 @@ $('#result-tab').click(async function(){
          `<ul>`); 
 
         await $('#render-area li').css({'font-size':$('#FontSize').val() + 'pt'});
-    };    
+    };
+    brightness_change();
 });
  
 //資料查詢及解析資料
 var gd = async function GD(parms){
     const BibleSecs = [];//回傳經文用陣列
-    console.log("1: "+parms);
+    //console.log("1: "+parms);
     var j='';
     var fd = $.get('https://bible.fhl.net/json/qb.php?'+parms, //取得資料API
     function(data){       
@@ -269,10 +270,10 @@ var gd = async function GD(parms){
         for(var i=0;i<j.length;i++){
             BibleSecs.push("<div class='me-2'>"+j[i].sec +". </div><div>"+j[i].bible_text+"</div>");
         }
-        console.log(BibleSecs.length);
+        //console.log(BibleSecs.length);
         
     });
-    console.log("return point");
+    //console.log("return point");
     return(BibleSecs);
 }
 
@@ -281,27 +282,6 @@ var jp = function jp(j){
         BibleSecs.push("<div class='me-2'>"+j[i].sec +". </div><div>"+j[i].bible_text+"</div>");
     }
     return BibleSecs;
-}
-
-var test = function test(){
-    var t1 = ["a","b","c"];
-    var t2 = ["d","e","f"];
-    t2.forEach(function(item,index){
-        var xx ='';
-        xx = test2("QQ");
-        console.log(xx);
-        //console.log(index);
-        console.log(item);
-        t1.push(item);
-    });
-    console.log(t1);
-}
-
-var test2 = async function test2(x){
-   await  setTimeout(function(){
-       console.log("t:"+x);
-        return x;
-    },1000);
 }
 
 $('#ShareURL').click(function(){
@@ -314,3 +294,24 @@ $('#FontSize').on("input",function(){
     $('#render-area li').css({'font-size':$('#FontSize').val() + 'pt'});
 });
 
+//黑色主題調整
+var brightness_change = function brightness_change(){
+    t_color = $('body').css('color');
+    bg_color = $('body').css('background-color');
+    bd_color = "rgba" + t_color.substring(3,t_color.length-1) + " ,0.125)";
+    $('#render-area li').css({'color':t_color, 'background-color':bg_color, 'border-color':bd_color});
+}
+
+$('.brightness-change').click(function(){
+    brightness_change();
+});
+
+//切換主題前須先將文字轉回英文，切換完成後再轉回中文
+var txt_replace_b = function txt_replace_b(){
+    $(".theme-toggle").text($(".theme-toggle").text().replace("切換深色", "Light"));
+    $(".theme-toggle").text($(".theme-toggle").text().replace("切換淺色", "Dark"));
+}
+var txt_replace_a = function txt_replace_a(){
+    $(".theme-toggle").text($(".theme-toggle").text().replace("Light", "切換深色"));
+    $(".theme-toggle").text($(".theme-toggle").text().replace("Dark", "切換淺色"));
+}

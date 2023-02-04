@@ -8,14 +8,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
-    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/gh/JuanmaElegido/DarkMode/js/darkMode.js"></script>
+    <title>聖經多段落閱讀工具</title>
 </head>
-<body class="px-2">
+<body class="px-2" style="background-color: rgb(255, 255, 255); color: rgb(34, 34, 34);">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
           <button class="nav-link active" id="query-tab" data-bs-toggle="tab" data-bs-target="#query" type="button" role="tab" aria-controls="query" aria-selected="true">查詢</button>
@@ -26,12 +27,20 @@
         <li class="nav-item" role="presentation">
           <button class="nav-link disabled" id="help-tab" data-bs-toggle="tab" data-bs-target="#help" type="button" role="tab" aria-controls="help" aria-selected="false">使用說明</button>
         </li>
+        <li class="ms-auto d-flex">
+          <div class="col-auto me-2 btn-group btn-group align-items-center" role="group" aria-label="Small button group">
+            <button id="button2" type="button" class="btn btn-dark btn-outline-secondary btn-sm brightness-change" onclick="txt_replace_b(); darkMode(this.id, 1); txt_replace_a();">-</button>
+            <button id="button1" type="button" class="btn btn-light btn-outline-secondary btn-sm theme-toggle brightness-change" onclick="txt_replace_b(); darkMode(this.id); txt_replace_a();">切換深色</button>
+            <button id="button3" type="button" class="btn btn-light btn-outline-secondary btn-sm brightness-change" onclick="txt_replace_b(); darkMode(this.id, -1); txt_replace_a();">+</button>
+          </div>
+        </li>
     </ul>
     <!--各分頁-->
     <div class="tab-content" id="myTabContent">
         <!--查詢-->
         <div class="tab-pane fade show active" id="query" role="tabpanel" aria-labelledby="query-tab">
-            <div class="col-10 d-flex pt-3">
+
+          <div class="col-10 d-flex pt-3">
                 <div class="d-flex px-2">
                     <select class="form-select col-4" id="Covenant" aria-label="Default select example">
                         <option selected value="1">新約</option>
