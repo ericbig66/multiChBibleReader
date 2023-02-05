@@ -177,6 +177,10 @@ $('#AddItem').click(function(){
         <div class="BibleContent d-none">chineses=`+s+`&chap=`+c+`&sec=`+ss+`-`+se+`</div>
     </div>
     `);
+    t_color = $('body').css('color');
+    bg_color = $('body').css('background-color');
+    bd_color = "rgba" + t_color.substring(3,t_color.length-1) + " ,0.125)";
+    $('.list-group-item').css({'background-color':bg_color, 'color':t_color, 'border-color':bd_color})
     RebuildQueryString();
 });
 
@@ -224,13 +228,26 @@ $(document).ready(function(){
             break;
         }
     }
+    // //確認session為新
+    // if(sessionStorage.getItem("session") === null){
+    //     sessionStorage.setItem("session",true);
+    // }
+
+    // //若未曾進入此頁面或已設定黑色主題，切換黑色主題
+    // if(localStorage.getItem("dark") === null || localStorage.getItem("dark") === true) {
+    //     localStorage.setItem('dark', "onload");
+    //     $('#button1').click();
+    // }else{
+    //     sessionStorage.setItem("session",false);
+    // }
+
 });
 
 
 //取得輸入的資料並繪製於頁面上
 $('#result-tab').click(async function(){
     $('#render-area').html('');
-    
+    bg_color = $('body').css('background-color');
     for(var index=0; index<$('.BibleContent').length; index++){
         var ch_title = $('.ChTitle:nth('+index+')').text();
         var content = "";
@@ -243,18 +260,17 @@ $('#result-tab').click(async function(){
         //console.log(content_list);
         for(var i = 0; i<content_list.length; i++){
             //console.log("content_list index= "+content_list[i]);
-            content += '<li class="list-group-item d-flex">'+content_list[i]+'</li>';
+            content += '<li class="list-group-item d-flex" style="background-color:'+bg_color+'">'+content_list[i]+'</li>';
         }
 
         await $('#render-area').append(`
         <ul class='list-group mb-5'>
-             <li class='list-group-item text-center fw-bolder'>`+ ch_title +`</li>`+
+             <li class='list-group-item text-center fw-bolder' style="background-color:`+bg_color+`">`+ ch_title +`</li>`+
              content+
          `<ul>`); 
-
-        await $('#render-area li').css({'font-size':$('#FontSize').val() + 'pt'});
     };
-    brightness_change();
+    await brightness_change();
+    await $('#render-area li').css({'font-size':$('#FontSize').val() + 'pt'});
 });
  
 //資料查詢及解析資料
@@ -294,17 +310,29 @@ $('#FontSize').on("input",function(){
     $('#render-area li').css({'font-size':$('#FontSize').val() + 'pt'});
 });
 
+//色彩格式轉換
+var rgb2hex = function rgb2hex(c){
+    c = c.substring(4,c.length-1); //去除外部字串
+    rgb = c.split(','); //分割rgb三色
+    hex = parseInt(rgb[0]).toString(16) + parseInt(rgb[1]).toString(16) + parseInt(rgb[2]).toString(16);
+    return hex;
+}
+
 //黑色主題調整
 var brightness_change = function brightness_change(){
     t_color = $('body').css('color');
     bg_color = $('body').css('background-color');
     bd_color = "rgba" + t_color.substring(3,t_color.length-1) + " ,0.125)";
+    console.log(t_color);
+    console.log(bg_color);
+    bg_img = "url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23"+rgb2hex(t_color)+"' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e\")";
     $('#render-area li').css({'color':t_color, 'background-color':bg_color, 'border-color':bd_color});
+    $('#myTab .active').css({'border-bottom-color':bg_color, 'background-color':bg_color,'color':t_color});
+    $('select').css({'background-color':bg_color, 'color':t_color, 'background-image':bg_img});
+    $('.form-control').css({'background-color':bg_color, 'color':t_color});
+    $('.list-group-item').css({'background-color':bg_color, 'color':t_color, 'border-color':bd_color})
 }
 
-$('.brightness-change').click(function(){
-    brightness_change();
-});
 
 //切換主題前須先將文字轉回英文，切換完成後再轉回中文
 var txt_replace_b = function txt_replace_b(){
@@ -314,4 +342,19 @@ var txt_replace_b = function txt_replace_b(){
 var txt_replace_a = function txt_replace_a(){
     $(".theme-toggle").text($(".theme-toggle").text().replace("Light", "切換深色"));
     $(".theme-toggle").text($(".theme-toggle").text().replace("Dark", "切換淺色"));
+    // if(localStorage.getItem("dark")==="onload" || sessionStorage.getItem("session") === true){
+    //     localStorage.setItem("dark",true);
+    //     sessionStorage.setItem("session",false);
+    // }else{
+    //     localStorage.setItem("dark",localStorage.getItem("dark")==="切換淺色");
+    // }
+    
 }
+
+//切換頁籤時須設定頁籤顏色
+$('#myTab .nav-link').click(function(){
+    t_color = $('body').css('color');
+    bg_color = $('body').css('background-color');    
+    $('#myTab .nav-link').removeAttr('style'); //先移除所有樣式
+    $('#myTab .active').css({'border-bottom-color':bg_color, 'background-color':bg_color,'color':t_color});
+});

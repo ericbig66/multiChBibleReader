@@ -16,7 +16,7 @@
     <script src="https://cdn.jsdelivr.net/gh/JuanmaElegido/DarkMode/js/darkMode.js"></script>
     <title>聖經多段落閱讀工具</title>
 </head>
-<body class="px-2" style="background-color: rgb(255, 255, 255); color: rgb(34, 34, 34);">
+<body class="px-2" style="background-color: rgb(34, 34, 34); color: rgb(255, 255, 255);">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
           <button class="nav-link active" id="query-tab" data-bs-toggle="tab" data-bs-target="#query" type="button" role="tab" aria-controls="query" aria-selected="true">查詢</button>
@@ -29,9 +29,9 @@
         </li>
         <li class="ms-auto d-flex">
           <div class="col-auto me-2 btn-group btn-group align-items-center" role="group" aria-label="Small button group">
-            <button id="button2" type="button" class="btn btn-dark btn-outline-secondary btn-sm brightness-change" onclick="txt_replace_b(); darkMode(this.id, 1); txt_replace_a();">-</button>
-            <button id="button1" type="button" class="btn btn-light btn-outline-secondary btn-sm theme-toggle brightness-change" onclick="txt_replace_b(); darkMode(this.id); txt_replace_a();">切換深色</button>
-            <button id="button3" type="button" class="btn btn-light btn-outline-secondary btn-sm brightness-change" onclick="txt_replace_b(); darkMode(this.id, -1); txt_replace_a();">+</button>
+            <button id="button2" type="button" class="btn btn-dark btn-outline-secondary btn-sm brightness-change" onclick="txt_replace_b(); darkMode(this.id, 1); txt_replace_a();brightness_change();">-</button>
+            <button id="button1" type="button" class="btn btn-light btn-outline-secondary btn-sm theme-toggle brightness-change" onclick="txt_replace_b(); darkMode(this.id); txt_replace_a();brightness_change();">切換深色</button>
+            <button id="button3" type="button" class="btn btn-light btn-outline-secondary btn-sm brightness-change" onclick="txt_replace_b(); darkMode(this.id, -1); txt_replace_a();brightness_change();">+</button>
           </div>
         </li>
     </ul>
