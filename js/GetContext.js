@@ -228,18 +228,33 @@ $(document).ready(function(){
             break;
         }
     }
-    // //確認session為新
-    // if(sessionStorage.getItem("session") === null){
-    //     sessionStorage.setItem("session",true);
-    // }
+    //確認session為新
+    if(window.sessionStorage.getItem("session") === null){
+        window.sessionStorage.setItem("session",true);
+        // console.log("session create");
+    }
+    //無主題紀錄時自動設定為深色
+    if(localStorage.getItem("dark") === null){
+        localStorage.setItem('dark', true);
+        // console.log("set default theme");
+    }
 
-    // //若未曾進入此頁面或已設定黑色主題，切換黑色主題
-    // if(localStorage.getItem("dark") === null || localStorage.getItem("dark") === true) {
-    //     localStorage.setItem('dark', "onload");
-    //     $('#button1').click();
-    // }else{
-    //     sessionStorage.setItem("session",false);
-    // }
+    //偵測初始session主題與顯示的主題是否相同，若不同則切換
+    if(window.sessionStorage.getItem("session") === 'true'){
+        current_theme = $('.theme-toggle').text()==="切換淺色" ? "dark" : "light";
+        user_theme = localStorage.getItem("dark")==='true' ? "dark" : "light"; 
+        // console.log(current_theme === user_theme);
+        if(!(current_theme === user_theme)){
+            $('#button1').click();
+        }else{
+            window.sessionStorage.setItem("session",false);
+        }
+    }
+
+    window.onbeforeunload = () => {
+        window.sessionStorage.removeItem('session');
+      }
+
 
 });
 
@@ -323,8 +338,8 @@ var brightness_change = function brightness_change(){
     t_color = $('body').css('color');
     bg_color = $('body').css('background-color');
     bd_color = "rgba" + t_color.substring(3,t_color.length-1) + " ,0.125)";
-    console.log(t_color);
-    console.log(bg_color);
+    // console.log(t_color);
+    // console.log(bg_color);
     bg_img = "url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23"+rgb2hex(t_color)+"' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e\")";
     $('#render-area li').css({'color':t_color, 'background-color':bg_color, 'border-color':bd_color});
     $('#myTab .active').css({'border-bottom-color':bg_color, 'background-color':bg_color,'color':t_color});
@@ -342,12 +357,17 @@ var txt_replace_b = function txt_replace_b(){
 var txt_replace_a = function txt_replace_a(){
     $(".theme-toggle").text($(".theme-toggle").text().replace("Light", "切換深色"));
     $(".theme-toggle").text($(".theme-toggle").text().replace("Dark", "切換淺色"));
-    // if(localStorage.getItem("dark")==="onload" || sessionStorage.getItem("session") === true){
-    //     localStorage.setItem("dark",true);
-    //     sessionStorage.setItem("session",false);
-    // }else{
-    //     localStorage.setItem("dark",localStorage.getItem("dark")==="切換淺色");
-    // }
+    //若主題紀錄為黑色時，在初次載入時還原
+    if(window.sessionStorage.getItem("session") === 'true'){
+        localStorage.setItem("dark",true);
+        window.sessionStorage.setItem("session",false);
+    }else{//使用者手動切換主題時自動修改紀錄
+        if(localStorage.getItem("dark")==='true'){
+            localStorage.setItem("dark",false);
+        }else{
+            localStorage.setItem("dark",true);
+        }
+    }
     
 }
 
