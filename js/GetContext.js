@@ -378,3 +378,10 @@ $('#myTab .nav-link').click(function(){
     $('#myTab .nav-link').removeAttr('style'); //先移除所有樣式
     $('#myTab .active').css({'border-bottom-color':bg_color, 'background-color':bg_color,'color':t_color});
 });
+
+$('#help-tab').click(function(){
+    $('.carousel-item').removeClass('active');
+    $('.wpb').prop('aria-current','true');
+    $('.wp').addClass('active');
+
+});

@@ -20,6 +20,8 @@
 * 信望愛站聖經 JSON API (qb.php)
 * 深色主題切換器： https://www.cssscript.com/dark-mode-bootstrap/
 
-下次更新：網頁內使用說明
+功能更新預告：
+1.收藏經文
+2.連結自動轉跳到結果頁面
 
 歡迎分享本專案及協同開發

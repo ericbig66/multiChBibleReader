@@ -23,3 +23,7 @@
 #render-area li{
     font-size: 18pt;
 }
+
+.rounded-10{
+    border-radius: 1rem !important;
+}
