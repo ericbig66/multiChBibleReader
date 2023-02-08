@@ -97,7 +97,7 @@ $("#Covenant").on("change",function(){
         ch_f = ch_f_o;
         ch_count = ch_count_o;
         sec_count = sec_count_o;
-    }``
+    }//``
     $('#chapter').find('option').remove(); //清除選項
     //產生相對應選項
     var ch_list_change = 
@@ -115,8 +115,6 @@ $('#chapter').on("change",function(){
 });
 
 var ch_lim_change = function(){
-    //console.log("ch_lim changed");
-
     var lim = ch_count[ch_s.indexOf($('#chapter').val())];
    $('#ch_limit').prop('max',lim);
    sec_lim_change();
@@ -124,6 +122,10 @@ var ch_lim_change = function(){
 
 //選擇章數==>設定節數線致
 $('#ch_limit').on("change",function(){
+    if(parseInt($('#ch_limit').val()) > parseInt($('#ch_limit').prop('max'))){
+        $('#ch_limit').val($('#ch_limit').prop('max'));
+    }
+    // console.log($('#ch_limit').val() + " / " + $('#ch_limit').prop('max'));
     sec_lim_change();
 });
 
@@ -135,6 +137,22 @@ var sec_lim_change = function(){
     $('#sec_s').prop('value',1);
     $('#sec_e').prop('value',lim);
 }
+
+//限制節數
+$('#sec_s').on("change",function(){
+    tmp = $('#sec_s').val();
+    ch_lim_change();
+    $('#sec_s').val(tmp);
+    if(parseInt($('#sec_s').val()) > parseInt($('#sec_s').prop('max'))){
+        $('#sec_s').val($('#sec_s').prop('max'));
+    }
+});
+$('#sec_e').on("change",function(){
+    ch_lim_change();
+    if(parseInt($('#sec_e').val()) > parseInt($('#sec_e').prop('max'))){
+        $('#sec_e').val($('#sec_e').prop('max'));
+    }
+});
 
 // List with handle
 Sortable.create(listWithHandle, {
@@ -166,6 +184,11 @@ $('#AddItem').click(function(){
     var c = $('#ch_limit').val();
     var ss = $('#sec_s').val();
     var se = $('#sec_e').val();
+    if(parseInt(ss)>parseInt(se)){
+        tmp = ss;
+        ss = se;
+        se = tmp;
+    }
     var SE ="";
     if(ss != se) SE = "~" + se;
     if(parseInt(ss)>parseInt(se)){se = [ss, ss = se][0]}
