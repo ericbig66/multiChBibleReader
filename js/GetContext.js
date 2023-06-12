@@ -141,16 +141,23 @@ var sec_lim_change = function(){
 //限制節數
 $('#sec_s').on("change",function(){
     tmp = $('#sec_s').val();
+    tmp2 = $('#sec_e').val();
     ch_lim_change();
     $('#sec_s').val(tmp);
+    $('#sec_e').val(tmp2);
     if(parseInt($('#sec_s').val()) > parseInt($('#sec_s').prop('max'))){
         $('#sec_s').val($('#sec_s').prop('max'));
     }
 });
 $('#sec_e').on("change",function(){
+    tmp = $('#sec_e').val();
+    tmp2 = $('#sec_s').val();
     ch_lim_change();
+    $('#sec_e').val(tmp);
+    $('#sec_s').val(tmp2);
     if(parseInt($('#sec_e').val()) > parseInt($('#sec_e').prop('max'))){
         $('#sec_e').val($('#sec_e').prop('max'));
+        console.log("xxx");
     }
 });
 
@@ -160,6 +167,11 @@ Sortable.create(listWithHandle, {
     animation: 150
   });
 
+// Favorite List
+Sortable.create(FavList, {
+    handle: '.glyphicon-move',
+    animation: 150
+  });  
 
 //清空列表
 var clear_item = function clearitem(){
@@ -177,6 +189,22 @@ $('#listWithHandle').on("click",".del",function(){
     //alert('??');
 });
 
+//列表(listWithHandle)增加項目的HTML
+var AppendToList = function(f, c, ss, se, s){
+    if(parseInt(ss)>parseInt(se)){se = [ss, ss = se][0]}
+    var SE ="";
+    if(ss != se) SE = "~" + se; 
+    $('#listWithHandle').append(`
+    <div class="list-group-item d-flex">    
+        <div class="glyphicon-move" aria-hidden="true"><i class="fas fa-arrows-alt-v me-2 scaling toBlue"></i></div>
+        <div class="ChTitle">`+f+` `+c+`:`+ss+ SE+`</div>
+        <div class="ms-auto"><i class="fas fa-trash-alt scaling del toPink"></i></div>
+        <div class="ms-4"><i class="fas fa-star scaling fav-icon toYellow" id="AddFavIcon"></i></div>
+        <div class="BibleContent d-none">chineses=`+s+`&chap=`+c+`&sec=`+ss+`-`+se+`</div>
+    </div>
+    `);
+}
+
 //增加列表項目
 $('#AddItem').click(function(){
     var s = $('#chapter').val();
@@ -184,22 +212,7 @@ $('#AddItem').click(function(){
     var c = $('#ch_limit').val();
     var ss = $('#sec_s').val();
     var se = $('#sec_e').val();
-    if(parseInt(ss)>parseInt(se)){
-        tmp = ss;
-        ss = se;
-        se = tmp;
-    }
-    var SE ="";
-    if(ss != se) SE = "~" + se;
-    if(parseInt(ss)>parseInt(se)){se = [ss, ss = se][0]}
-    $('#listWithHandle').append(`
-    <div class="list-group-item d-flex">    
-        <div class="glyphicon-move" aria-hidden="true"><i class="fas fa-arrows-alt-v me-2 scaling toBlue"></i></div>
-        <div class="ChTitle">`+f+` `+c+`:`+ss+ SE+`</div>
-        <div class="ms-auto"><i class="fas fa-trash-alt scaling del toPink"></i></div>
-        <div class="BibleContent d-none">chineses=`+s+`&chap=`+c+`&sec=`+ss+`-`+se+`</div>
-    </div>
-    `);
+    AppendToList(f, c, ss, se, s);
     t_color = $('body').css('color');
     bg_color = $('body').css('background-color');
     bd_color = "rgba" + t_color.substring(3,t_color.length-1) + " ,0.125)";
@@ -207,6 +220,47 @@ $('#AddItem').click(function(){
     RebuildQueryString();
 });
 
+
+//收藏經文
+$('#listWithHandle').on("click","#AddFavIcon",function(){ //星號
+    if($(this).attr("style")=="color:rgb(205, 215, 21)"){
+        $(this).attr("style","");
+        //remove from favorite
+    }else{
+        $(this).attr("style","color:rgb(205, 215, 21)");
+        //add to favorite
+    }
+});
+$('#AddFav').click(function(){ //按鈕
+    var s = $('#chapter').val();
+    var f = ch_f[ch_s.indexOf(s)];
+    var c = $('#ch_limit').val();
+    var ss = $('#sec_s').val();
+    var se = $('#sec_e').val();
+    AppendToFav(f, c, ss, se, s);
+    t_color = $('body').css('color');
+    bg_color = $('body').css('background-color');
+    bd_color = "rgba" + t_color.substring(3,t_color.length-1) + " ,0.125)";
+    $('.list-group-item').css({'background-color':bg_color, 'color':t_color, 'border-color':bd_color})
+    RebuildQueryString();
+});
+
+//收藏列表(FavList)增加項目的HTML
+var AppendToFav = function(f, c, ss, se, s){
+    if(parseInt(ss)>parseInt(se)){se = [ss, ss = se][0]}
+    var SE ="";
+    if(ss != se) SE = "~" + se; 
+    $('#FavList').append(`
+    <div class="list-group-item d-flex">    
+        <div class="glyphicon-move" aria-hidden="true"><i class="fas fa-arrows-alt-v me-2 scaling toBlue"></i></div>
+        <div class="ChTitle">`+f+` `+c+`:`+ss+ SE+`</div>
+        <div class="ms-auto"><i class="fas fa-trash-alt scaling del toPink"></i></div>
+        <div class="BibleContent d-none">chineses=`+s+`&chap=`+c+`&sec=`+ss+`-`+se+`</div>
+    </div>
+    `);
+}
+
+//更新API查詢字串
 var RebuildQueryString = function(){
     var queryString = "?";
     for(var i = 0; i<$(".BibleContent").length; i++){
@@ -229,28 +283,19 @@ $(document).ready(function(){
     //console.log("autoAddItem");
     while(queryString.get('chs'+i)!=null){
         try{
-            var s = queryString.get('chs'+i);
-            var f = ch_s_n.indexOf(s)>-1?ch_f_n[ch_s_n.indexOf(s)]:ch_f_o[ch_s_o.indexOf(s)];
-            var c = queryString.get('chn'+i);
-            var ss = queryString.get('ss'+i);
-            var se = queryString.get('se'+i);
-            var SE ="";
-            if(ss != se) SE = "~" + se;
-            if(parseInt(ss)>parseInt(se)){se = [ss, ss = se][0]}
-            $('#listWithHandle').append(`
-            <div class="list-group-item d-flex">    
-                <div class="glyphicon-move" aria-hidden="true"><i class="fas fa-arrows-alt-v me-2 scaling toBlue"></i></div>
-                <div class="ChTitle">`+f+` `+c+`:`+ss+ SE+`</div>
-                <div class="ms-auto"><i class="fas fa-trash-alt scaling del toPink"></i></div>
-                <div class="BibleContent d-none">chineses=`+s+`&chap=`+c+`&sec=`+ss+`-`+se+`</div>
-            </div>
-            `);
+            var s = queryString.get('chs'+i); //章節縮寫
+            var f = ch_s_n.indexOf(s)>-1?ch_f_n[ch_s_n.indexOf(s)]:ch_f_o[ch_s_o.indexOf(s)]; //章節全稱
+            var c = queryString.get('chn'+i); //第幾章
+            var ss = queryString.get('ss'+i); //起始節
+            var se = queryString.get('se'+i); //終止節
+            AppendToList(f, c, ss, se, s);
             i++;
         }catch{
             //console.log('i = '+i);
             break;
         }
     }
+
     //確認session為新
     if(window.sessionStorage.getItem("session") === null){
         window.sessionStorage.setItem("session",true);
@@ -278,7 +323,12 @@ $(document).ready(function(){
         window.sessionStorage.removeItem('session');
       }
 
-
+    //若為分享的頁面則自動跳頁
+    if(queryString.get('chs0')!=null){
+        $('#result-tab').click();
+        $('#result-tab').click();
+        //點兩次避免顯示問題
+    }
 });
 
 
