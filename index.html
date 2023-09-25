@@ -22,6 +22,9 @@
           <button class="nav-link active" id="query-tab" data-bs-toggle="tab" data-bs-target="#query" type="button" role="tab" aria-controls="query" aria-selected="true">查詢</button>
         </li>
         <li class="nav-item" role="presentation">
+          <button class="nav-link" id="favorite-tab" data-bs-toggle="tab" data-bs-target="#favorite" type="button" role="tab" aria-controls="favorite" aria-selected="false">收藏經文</button>
+        </li>
+        <li class="nav-item" role="presentation">
           <button class="nav-link" id="result-tab" data-bs-toggle="tab" data-bs-target="#result" type="button" role="tab" aria-controls="result" aria-selected="false">結果</button>
         </li>
         <li class="nav-item" role="presentation">
@@ -40,7 +43,7 @@
         <!--查詢-->
         <div class="tab-pane fade show active" id="query" role="tabpanel" aria-labelledby="query-tab">
 
-          <div class="col-10 d-flex pt-3">
+          <div class="col-10 d-flex pt-3 query_inner">
                 <div class="d-flex px-2">
                     <select class="form-select col-4" id="Covenant" aria-label="Default select example">
                         <option selected value="1">新約</option>
@@ -78,7 +81,7 @@
                         <option value ="啟">啟示錄</option>
                     </select>
                 </div>
-                <div class="col-4">
+                <div class="w-auto">
                     <div class="px-2 input-group">
                         <input type="number" value="1" min=1 max=20 class="form-control" id ="ch_limit">
                         <span class="input-group-text">章</span>
@@ -93,21 +96,30 @@
                     <button type="button" class="btn btn-primary mx-2" id="AddItem">加入列表</button>
                     <button type="button" class="btn btn-primary mx-2" id="ClearItem">清空列表</button>
                     <button type="button" class="btn btn-success mx-2" id="ShareURL">分享</button>
+                    <button type="button" class="btn btn-success mx-2" id="AddFav">收藏經文</button>
                 </div>
             </div>
 
-            <div class="ms-2 mt-3 col-5 list-group">
+            <div class="ms-2 mt-3 col-5 list-group" id="list-container">
                 <div id="listWithHandle" class="list-group">
 
                 </div>
             </div>
         </div>
+        <!--收藏-->
+        <div class="tab-pane fade show" id="favorite" role="tabpanel" aria-labelledby="favorite-tab">
+          <div class="ms-2 mt-3 col-5 list-group" id="list-container">
+            <div id="FavList" class="list-group">
+              
+            </div>
+        </div>
+        </div>
         <!--結果-->
         <div class="tab-pane fade" id="result" role="tabpanel" aria-labelledby="result-tab">
             <div class="d-flex col-10 mx-auto mt-3" id="FontSizeContainer">
-              <div class="d-flex col-8 mx-auto">
+              <div class="d-flex col-8 mx-auto" id="FontSizeBox">
                 <div class="ms-auto me-1">
-                  <label for="customRange1" class="form-label">字體大小</label>
+                  <label for="customRange1" class="form-label" >字體大小</label>
                 </div>
                 <div class="col-8 me-auto">
                   <input type="range" class="form-range" min="9" max="60" step="0.5" id="FontSize" value = "18">

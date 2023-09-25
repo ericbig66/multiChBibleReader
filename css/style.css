@@ -20,10 +20,56 @@
     color:crimson;
 }
 
+.toYellow:hover{
+    color:rgb(205, 215, 21);
+}
+
+#AddFavIcon{
+    cursor: pointer;
+}
+
 #render-area li{
     font-size: 18pt;
 }
 
 .rounded-10{
     border-radius: 1rem !important;
+}
+
+#ch_limit, #sec_s, #sec_e{
+    width: 65px;
+}
+
+#AddItem, #ClearItem, #ShareURL{
+    min-width: fit-content;
+}
+
+.input-group{
+    width: max-content;
+}
+
+.form-select{
+    min-width: max-content;
+}
+
+@media (max-width: 576px) {
+    .query_inner{
+        display:block !important;
+    }
+    .query_inner div{
+        margin-top: 10px;
+    }
+    #list-container{
+        width: auto;
+    }
+}
+
+#FontSizeContainer label{
+    width: max-content;
+}
+
+@media (max-width:768px) {
+    #FontSizeBox {
+        width: 100%;
+    }
 }
