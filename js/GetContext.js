@@ -368,7 +368,8 @@ var gd = async function GD(parms){
     var j='';
     var fd = $.get('https://bible.fhl.net/json/qb.php?'+parms, //取得資料API
     function(data){       
-        j = jQuery.parseJSON(data).record;//處理json，並分出record資料
+        var json = (typeof data === "string") ? JSON.parse(data) : data
+        j = data.record;//處理json，並分出record資料
     });
     await $.when(fd).done(function(){
         for(var i=0;i<j.length;i++){
